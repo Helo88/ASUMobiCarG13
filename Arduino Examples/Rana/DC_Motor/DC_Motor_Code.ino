@@ -1,26 +1,3 @@
-/********************************************************************
- * SparkFun Inventor's Kit
- * Example sketch 12
- * 
- * SPINNING A MOTOR
- * 
- * This example requires that you drive your motor using a switching 
- * transistor. The Arduino is only capable of sourcing about 40 mA of 
- * current per pin and a motor requires upwards of 150 mA. 
- *
- * Look at the wiring diagram in the SIK Guide - Circuit #12 or read the 
- * notes in the readme tab for more information on wiring.
- * 
- * This sketch was written by SparkFun Electronics,
- * with lots of help from the Arduino community.
- * This code is completely free for any use.
- * Visit http://learn.sparkfun.com/products/2 for SIK information.
- * Visit http://www.arduino.cc to learn about the Arduino.
- * 
- * Version 2.0 6/2012 MDG
- * Version 2.1 8/2014 BCH
- *******************************************************************/
-
 const int motorPin = 9;  // Connect the base of the transistor to pin 9.
                          // Even though it's not directly connected to the motor,
                          // we'll call it the 'motorPin'
