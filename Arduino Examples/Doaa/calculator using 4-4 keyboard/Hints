@@ -1,0 +1,6 @@
+"A" -->> Addition (+)
+“B” -->> Subtraction (-)
+“C” -->> Multiplication (*)
+“D” -->> Division (/)
+“*” -->> Clear (C)
+“#” -->> Equals (=)
