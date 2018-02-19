@@ -1,4 +1,4 @@
-// Ex1:blinking LED 
+// Ex1_blinking_LD 
 const int LED = 13;             
 void setup ( )
 {  
