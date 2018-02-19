@@ -1,0 +1,16 @@
+int LED 13;
+void setup(){
+
+PinMode (LED,OUTPUT);
+
+}
+void Loop(){
+
+digitalWrite(LED,High);
+delay(500);
+
+digitalWrite(LED,LOW);
+delay(2000);
+
+
+}
