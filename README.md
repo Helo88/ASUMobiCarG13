@@ -10,6 +10,6 @@
 - Rana Reda Ali
 - Doaa Magdy AboMoslm
 - Soha Magdy Bakry
-- Shorouk Mohamed 
+- Shorouk Mohamed Mohamed
 - Shimma Mahmoud Mohamed
 - Nourhan Ahmed AboElenen
