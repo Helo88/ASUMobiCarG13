@@ -10,7 +10,7 @@ digitalWrite(LED,High);
 delay(500);
 
 digitalWrite(LED,LOW);
-delay(2000);
+delay(1500);
 
 
 }
