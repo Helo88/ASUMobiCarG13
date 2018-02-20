@@ -1,27 +1,22 @@
-int LED0 4;
-int LED1 5;
-int LED2 6;
-int LED3 7;
+
 void setup(){
-
-PinMode (LED0,OUTPUT);
-PinMode (LED1,OUTPUT);
-PinMode (LED2,OUTPUT);
-PinMode (LED3,OUTPUT);
-
 }
 void Loop(){
 
-digitalWrite(LED0,High);
+for ( int u=4 ;u<=7 ; u++){
+
+digitalWrite(u,HIGH);
+delay(1000);
+digitalWrite(u,LOW);
 delay(1000);
 
-digitalWrite(LED1,High);
+}
+for(int u=7; u>5 ; u--){
+
+digitalWrite(u-1,HIGH);
+delay(1000);
+digitalWrite(u-1,LOW);
 delay(1000);
 
-digitalWrite(LED2,High);
-delay(1000);
-
-digitalWrite(LED3,High);
-delay(1000);
-
+}
 }
