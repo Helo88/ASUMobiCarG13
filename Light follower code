@@ -1,0 +1,59 @@
+const byte r_light=A1;//r-light == right light 
+
+const byte l_light=A2;
+
+ const byte f_light=A3;
+
+void setup()
+{
+pinMode(f_light,INPUT);
+
+pinMode(r_light,INPUT);
+
+pinMode(l_light,INPUT);
+}
+void loop()
+{
+
+ #define f_light_val analogRead(f_light)
+  #define r_light_val analogRead(r_light)
+  #define l_light_val analogRead(l_light)
+  //Serial.println(f_light_val);
+  //Serial.println(r_light_val);
+  //Serial.println(l_light_val);
+
+  if(f_light_val<500&&f_light_val>200)                //the values of 600-300 to be changed according to practical debugging 
+  {
+         digitalWrite(motor1Pin1, HIGH);
+        digitalWrite(motor1Pin2, LOW); 
+        digitalWrite(motor2Pin1, HIGH);
+        digitalWrite(motor2Pin2, LOW);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+       
+  }
+  
+    
+    
+if(r_light_val<150&&r_light_val>50)                //the values of 600-300 to be changed according to practical debugging 
+{
+        digitalWrite(motor1Pin1, LOW); 
+        digitalWrite(motor1Pin2, HIGH); 
+        digitalWrite(motor2Pin1, HIGH);
+        digitalWrite(motor2Pin2, LOW);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+        
+}
+   
+if(l_light_val<500&&l_light_val>180)                //the values of 600-300 to be changed according to practical debugging 
+ {
+        digitalWrite(motor1Pin1, HIGH);
+        digitalWrite(motor1Pin2, LOW); 
+        digitalWrite(motor2Pin1, LOW);
+        digitalWrite(motor2Pin2, HIGH);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+        
+ }    
+    }
