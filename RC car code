@@ -1,0 +1,416 @@
+
+ 
+ // Bluetooth RC Robot 
+ 
+// Programmed By Garret Kamine
+ 
+
+
+const int motor1Pin1 = 5; //mototr A, at right
+
+const int motor1Pin2 = 6;
+
+const int enablem1Pin3 = 11;
+
+const int motor2Pin1 = 9;
+
+const int motor2Pin2 = 10;
+
+const int enablem2Pin3 = 3;
+
+
+byte serialA;
+
+
+//Ultrasonic
+
+
+
+ #define trigPin 4
+
+#define echoPin 12
+
+#define led 7 //purple jumper
+
+#define led2 8//GasDetector
+
+ int gasIn = A5;
+
+ int reading;
+
+const int gasOut = 2; 
+
+
+//Light Follower
+
+const byte r_light=A1;//r-light == right light 
+
+const byte l_light=A2;
+
+ const byte f_light=A3;
+
+
+
+void setup() {
+
+  //motion
+
+ Serial.begin(9600);
+
+
+    pinMode(motor1Pin1, OUTPUT);
+
+    pinMode(motor1Pin2, OUTPUT);
+
+    pinMode(enablem1Pin3, OUTPUT);
+ 
+   pinMode(motor2Pin1, OUTPUT);
+ 
+   pinMode(motor2Pin2, OUTPUT);
+  
+  pinMode(enablem2Pin3, OUTPUT);
+
+//ultrasonic
+
+
+ 
+  pinMode(trigPin, OUTPUT);
+
+  pinMode(echoPin, INPUT);
+
+  pinMode(led, OUTPUT);
+  
+pinMode(led2, OUTPUT);
+
+  pinMode(4,OUTPUT);
+
+
+//IR object
+
+
+pinMode(A0,INPUT);
+
+pinMode(2,OUTPUT);
+
+
+//Gas Detector
+
+pinMode(gasIn, INPUT);
+
+pinMode(gasOut, OUTPUT);
+
+
+//Light Follower
+
+pinMode(f_light,INPUT);
+
+pinMode(r_light,INPUT);
+
+pinMode(l_light,INPUT);
+
+
+
+}
+
+
+void loop() {
+
+
+
+  //MOTION
+
+
+
+if (Serial.available() > 0) {
+serialA = Serial.read();
+
+Serial.println(serialA);
+
+}
+
+
+if (analogRead(A0)>500)
+
+{
+
+
+   switch (serialA) {
+  // forward
+   case 'F':
+
+        digitalWrite(motor1Pin1, HIGH);
+ 
+       digitalWrite(motor1Pin2, LOW); 
+   
+     digitalWrite(motor2Pin1, HIGH);
+   
+     digitalWrite(motor2Pin2, LOW);
+    
+    digitalWrite(enablem1Pin3, HIGH);
+
+        digitalWrite(enablem2Pin3, HIGH);
+  
+      break; 
+
+        
+         // left
+    case 'L':
+ 
+       digitalWrite(motor1Pin1, HIGH);
+      
+  digitalWrite(motor1Pin2, LOW); 
+     
+   digitalWrite(motor2Pin1, LOW);
+   
+     digitalWrite(motor2Pin2, HIGH);
+    
+    digitalWrite(enablem1Pin3, HIGH);
+
+        digitalWrite(enablem2Pin3, HIGH);
+   
+     break; 
+ 
+       
+    // right
+    case 'R':
+  
+      digitalWrite(motor1Pin1, LOW); 
+
+        digitalWrite(motor1Pin2, HIGH); 
+ 
+       digitalWrite(motor2Pin1, HIGH);
+    
+    digitalWrite(motor2Pin2, LOW);
+ 
+       digitalWrite(enablem1Pin3, HIGH);
+ 
+       digitalWrite(enablem2Pin3, HIGH);
+  
+      break; 
+      
+ 
+    // forward left
+    case 'G':
+   
+     digitalWrite(motor1Pin1, HIGH); 
+   
+     digitalWrite(motor1Pin2, LOW); 
+ 
+       digitalWrite(motor2Pin1, HIGH);
+  
+      digitalWrite(motor2Pin2, LOW);
+ 
+       analogWrite(enablem1Pin3, 255);
+  
+      analogWrite(enablem2Pin3, 100);
+
+        break; 
+    
+
+    // forward right
+    case 'I':
+   
+     digitalWrite(motor1Pin1, HIGH); 
+    
+    digitalWrite(motor1Pin2, LOW); 
+    
+    digitalWrite(motor2Pin1, HIGH);
+  
+      digitalWrite(motor2Pin2, LOW);
+    
+    analogWrite(enablem1Pin3, 100);
+
+        analogWrite(enablem2Pin3, 255);
+
+        break; 
+
+    
+
+    // backward left
+    case 'H':
+
+        digitalWrite(motor1Pin1, LOW); 
+  
+      digitalWrite(motor1Pin2, HIGH); 
+
+        digitalWrite(motor2Pin1, LOW);
+  
+      digitalWrite(motor2Pin2, HIGH);
+  
+      analogWrite(enablem1Pin3, 255);
+ 
+       analogWrite(enablem2Pin3, 100);
+
+        break; 
+    
+    // backward right
+    case 'J':
+
+        digitalWrite(motor1Pin1, LOW);
+ 
+        digitalWrite(motor1Pin2, HIGH); 
+   
+     digitalWrite(motor2Pin1, LOW);
+  
+      digitalWrite(motor2Pin2, HIGH);
+
+        analogWrite(enablem1Pin3, 100);
+  
+      analogWrite(enablem2Pin3, 255);
+ 
+       break; 
+    
+    // backward
+    case 'B':
+
+        digitalWrite(motor1Pin1, LOW);
+ 
+        digitalWrite(motor1Pin2, HIGH);
+  
+      digitalWrite(motor2Pin1, LOW);
+
+        digitalWrite(motor2Pin2, HIGH);
+
+        digitalWrite(enablem1Pin3, HIGH);
+  
+      digitalWrite(enablem2Pin3, HIGH);
+
+        break; 
+
+   }
+     // Stop
+     
+}
+
+
+        //ULTRASONIC
+
+ 
+    long duration, distance;
+
+  digitalWrite(trigPin, LOW);  // Added this line
+
+  delayMicroseconds(2); // Added this line
+  
+digitalWrite(trigPin, HIGH);
+
+//  delayMicroseconds(1000); - Removed this line
+  delayMicroseconds(10); // Added this line
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
+  if (distance < 15) {  // This is where the LED On/Off happens
+    digitalWrite(led,HIGH); // When the Red condition is met, the Green LED should turn off
+  digitalWrite(led2,LOW);
+
+}
+  else {
+    digitalWrite(led,LOW);
+    digitalWrite(led2,HIGH);
+  }
+  if (distance >= 200 || distance <= 0){
+  //  Serial.println("Out of range");
+  //  delay(500);
+  }
+  else {
+  //  Serial.print(distance);
+  //  Serial.println(" cm");
+   // delay (500);
+  }
+
+//IR Object
+
+ //   Serial.println(analogRead(A0));
+    
+if (analogRead(A0)<500)
+
+
+   {    digitalWrite(motor1Pin1, LOW); 
+        digitalWrite(motor1Pin2, HIGH);
+        digitalWrite(motor2Pin1, LOW);
+        digitalWrite(motor2Pin2, HIGH);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+   }
+    else
+    {
+
+    digitalWrite(motor1Pin1, LOW ); 
+        digitalWrite(motor1Pin2, LOW);
+        digitalWrite(motor2Pin1, LOW);
+        digitalWrite(motor2Pin2, LOW);
+        digitalWrite(enablem1Pin3, LOW);
+        digitalWrite(enablem2Pin3, LOW);
+
+          
+    }
+
+
+
+
+//Gas Detector
+  reading = analogRead(gasIn);
+ 
+  //Serial.println(reading);
+
+  if (reading > 300)
+  {
+    
+    digitalWrite(gasOut, HIGH);
+    
+
+    }
+  
+  else{
+
+    digitalWrite(gasOut, LOW);
+    
+
+  }
+
+
+
+//Light Follower
+
+  #define f_light_val analogRead(f_light)
+  #define r_light_val analogRead(r_light)
+  #define l_light_val analogRead(l_light)
+  //Serial.println(f_light_val);
+  //Serial.println(r_light_val);
+  //Serial.println(l_light_val);
+
+  if(f_light_val<500&&f_light_val>200)                //the values of 600-300 to be changed according to practical debugging 
+  {
+         digitalWrite(motor1Pin1, HIGH);
+        digitalWrite(motor1Pin2, LOW); 
+        digitalWrite(motor2Pin1, HIGH);
+        digitalWrite(motor2Pin2, LOW);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+       
+  }
+  
+    
+    
+if(r_light_val<150&&r_light_val>50)                //the values of 600-300 to be changed according to practical debugging 
+{
+        digitalWrite(motor1Pin1, LOW); 
+        digitalWrite(motor1Pin2, HIGH); 
+        digitalWrite(motor2Pin1, HIGH);
+        digitalWrite(motor2Pin2, LOW);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+        
+}
+   
+if(l_light_val<500&&l_light_val>180)                //the values of 600-300 to be changed according to practical debugging 
+ {
+        digitalWrite(motor1Pin1, HIGH);
+        digitalWrite(motor1Pin2, LOW); 
+        digitalWrite(motor2Pin1, LOW);
+        digitalWrite(motor2Pin2, HIGH);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+        
+ }
+    }
