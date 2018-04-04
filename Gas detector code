@@ -1,0 +1,35 @@
+#define led2 8//GasDetector
+
+ int gasIn = A5;
+
+ int reading;
+
+const int gasOut = 2; 
+
+void setup()
+{
+pinMode(gasIn, INPUT);
+
+pinMode(gasOut, OUTPUT);
+}
+void loop()
+{
+ reading = analogRead(gasIn);
+ 
+  //Serial.println(reading);
+
+  if (reading > 300)
+  {
+    
+    digitalWrite(gasOut, HIGH);
+    
+
+    }
+  
+  else{
+
+    digitalWrite(gasOut, LOW);
+    
+
+  }
+}
