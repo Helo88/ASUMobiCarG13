@@ -1,0 +1,38 @@
+
+void setup() {
+
+//IR object
+
+
+pinMode(A0,INPUT);
+
+pinMode(2,OUTPUT);
+} 
+void loop()
+{
+//   Serial.println(analogRead(A0));
+    
+if (analogRead(A0)<500)
+
+
+   {    digitalWrite(motor1Pin1, LOW); 
+        digitalWrite(motor1Pin2, HIGH);
+        digitalWrite(motor2Pin1, LOW);
+        digitalWrite(motor2Pin2, HIGH);
+        digitalWrite(enablem1Pin3, HIGH);
+        digitalWrite(enablem2Pin3, HIGH);
+   }
+    else
+    {
+
+    digitalWrite(motor1Pin1, LOW ); 
+        digitalWrite(motor1Pin2, LOW);
+        digitalWrite(motor2Pin1, LOW);
+        digitalWrite(motor2Pin2, LOW);
+        digitalWrite(enablem1Pin3, LOW);
+        digitalWrite(enablem2Pin3, LOW);
+
+          
+    }
+
+}
