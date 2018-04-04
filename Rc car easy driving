@@ -1,0 +1,12 @@
+ Unfortuenately those problems  make us unable to upload this video at the proper time :( we mention them  for u so u can avoid them in the future 
+ :") inshallah 
+ u should choose your battery properly in our case we use 4 wheel chassis( 4 motors each needs 9 v) at our first attempt we used a 15 v battery 
+ everything almost worked fine ,but after some weeks the bridge didn't work fine  and we  discoverd the volt was a bit higher than required 
+ 2 pins have been burned ,so we changed the battery & the bridge .
+ At our second attempt we used a  9 v battery ,but we had a problem again with a pin (one of the outputs pins the volt at it didn't change from 
+ high to low with the code properly  ) ,so we had to change the ic for the third time :"( + we discovered later the 15 v battery affected our motors badly 
+so finally we  decided to change all  the motors & the ic ,and begin with the lowest voltage which could run the bridge & an  external battery for the arduino 
+and here we r :"D 
+our link *^* 
+ 
+ https://drive.google.com/file/d/1HDcbvrlSI_dMAS6xegyD0cOOkyzkgoh1/view
