@@ -1,0 +1,28 @@
+//A simple sound activated bot, turn On when there is a sound and turn off if it hear sound again, It don't have any specific purpose just a toy with minimum intelligence lol.
+
+This robot uses sound detecting sensor, which actually produces vibration whenever there is a noise, it cannot measure the db of the sound that producing, all it can do is to produce a signal when there is a sound .
+
+int Tomotor1 = 8; 
+int Tomotor2 = 9;
+int soundsensor = 7;   // input from sound sensor
+
+boolean state = false;
+
+void setup()
+{
+  pinMode(Tomotor1, OUTPUT);
+  pinMode(Tomotor2, OUTPUT);
+  pinMode(soundsensor, INPUT);
+}
+
+void loop()
+{
+  if (digitalRead(soundsensor) == LOW)
+  { 
+    delay(100);                     
+    state = !state;               
+    digitalWrite(Tomotor1, state);   
+    digitalWrite(Tomotor2, state);   
+
+  }
+}
