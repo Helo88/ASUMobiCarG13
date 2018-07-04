@@ -51,12 +51,40 @@ void loop() {
   if(Serial.available()>0){
   val=Serial.read();
  Di=Ready();
-  if((val=='F')&&Di>30)
-  Forward(200);
-  else{
-    while(Di<30){
-    Backward(100);
-    Di=Ready();
+  if (val=='F')
+  {
+    while(1)
+    {
+      Di=Ready();
+      if ( Di>40)
+      {
+        Forward (255);
+        
+        }
+      while ( Di<=40)
+      {
+        
+        Right (100,200);
+          
+      Di = Ready ();
+      }
+      Di = Ready();
+      if(Serial.available()){
+  val=Serial.read();
+      if (val=='S')
+      {
+        Stop();
+        break;
+        }
+
+        if(val=='B') {Backward(200);break;}
+  if(val=='R') {Right(200,200);break;}
+  if(val=='L') {Left(200);break;}
+  if(val=='I') {Forward_right(100,255);break;}
+  if(val=='G') {Backward_right(100,255);break;}    
+  if(val=='J') Forward_left(255,100);
+  if(val=='C') Backward_left(255,100);
+      }
     }}
   if(val=='B') Backward(200);
   if(val=='R') Right(200,200);
