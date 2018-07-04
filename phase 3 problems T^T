@@ -1,0 +1,12 @@
+using only coding during this phase doesn't seem a very bad idea for us ....
+variable distanse & angles works fine for a while till we notice the error precentage is increasing ,to reduce it some code equations are modified 
+for we get an acceptable precentage.   
+again it works fine & again error precentage is increasing while trying to know why ,some of simple car movments (forward ,backward) error 
+affects them so badly instead of goning back and forth in a semi straight line line it goes curvy...
+honestly we 've no idea that the high volt (11 v) 'll affect the yellow dc motor (i don't recommend those motors to u)
+efficiency so fast (as i mentioned befor we changed the motors at phase one) 
+& it isn't the easiest thing to almost rebuild the car from the begining 3 days befor the deadline ,but we go through & the car works fine again
+instead of using 11 v we use almost 7 v (two  batteries )  so another 2 problems appear to the surface the car performace is changing with the supply volt
++ the speed is much lower than it used to be ..
+the second problem is solved by some code modifications ,for the first one u can use a volt regulator (but we cann't find a holder (for 3  batteries)
+anywhere (best solution)or u can modify the code to get the best performance at a certain voltage. 
