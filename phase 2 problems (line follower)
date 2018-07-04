@@ -1,0 +1,3 @@
+we tried to use one sensor at the center of the car & it worked fine for simple shapes (slightly curved  lines ) ,for fast &sharp curves no
+using two sensors also wasn't a great idea still not very accurate & the code had bugs 
+Finally we used a module consisting of  3 sensors which works pretty fine (not very very smooth ,but ok) 
