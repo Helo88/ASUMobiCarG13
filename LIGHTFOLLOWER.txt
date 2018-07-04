@@ -1,0 +1,254 @@
+const int izqA = 5; 
+const int izqB = 6; 
+const int enB = 11;
+const int enA = 3;
+const int derA = 9; 
+const int derB = 10; 
+ int vel = 255; // Velocidad de los motores (0-255)
+int estado = 'g'; // inicia detenido
+
+
+
+
+
+
+
+// Variable definitions
+int LeftSensor = A0;
+int RightSensor = A1;
+
+int SensorLeft; // This stores the value of the Left Sensor pin to use later on in the sketch
+
+int SensorRight; // This stores the value of the Right Sensor pin to use later on in the sketch
+
+int SensorDifference; // This value is used to determine the difference between the Left and Right
+
+
+
+
+
+
+
+void setup() { 
+Serial.begin(9600); // inicia el puerto serial para comunicacion con el Bluetooth
+pinMode(derA, OUTPUT);
+pinMode(derB, OUTPUT);
+pinMode(izqA, OUTPUT);
+pinMode(izqB, OUTPUT);
+pinMode(enB, OUTPUT);
+pinMode(enA, OUTPUT);
+
+
+
+
+pinMode(LeftSensor, INPUT); // Defines this pin as an input. The Arduino will read values from this pin.
+
+pinMode(RightSensor, INPUT); // Defines this pin as an input. The Arduino will read values from this pin.
+
+digitalWrite(A0, HIGH); // Enables LDR
+
+digitalWrite(A1, HIGH); // Enables LDR
+
+Serial.begin(9600); // Enables a serial connection through the Arduino to either USB or UART (pins 0&1). Note that the baud rate is set to 9600
+
+Serial.println(" \nBeginning Light Seeking Behavior"); // Placed at the very end of void Setup() so that it is runs once, right before the void Loop() 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+} 
+
+
+
+
+
+
+
+
+void loop() { 
+
+if(Serial.available()>0){ // lee el bluetooth y almacena en estado
+estado = Serial.read();
+}
+if(estado=='f'){ // Forward
+  Serial.println(estado);
+  analogWrite(enA,vel);
+  analogWrite(enB, vel);
+analogWrite(derB, 0); 
+analogWrite(izqB, 0); 
+analogWrite(derA, vel); 
+analogWrite(izqA, vel); 
+}
+if(estado=='r'){ // right
+    Serial.println(estado);
+    analogWrite(enA,0);
+  analogWrite(enB, vel);
+analogWrite(derB, 0); 
+analogWrite(izqB, 0); 
+analogWrite(derA, vel); 
+analogWrite(izqA, vel); 
+}
+if(estado=='c'){ // Stop
+    Serial.println(estado);
+    analogWrite(enA,0);
+  analogWrite(enB, 0);
+analogWrite(derB, 0); 
+analogWrite(izqB, 0); 
+analogWrite(derA, 0); 
+analogWrite(izqA, 0); 
+}
+if(estado=='l'){ // left
+    Serial.println(estado);
+    analogWrite(enA,vel);
+  analogWrite(enB, 0);
+analogWrite(derB, vel); 
+analogWrite(izqB, 0);
+analogWrite(izqA, vel);
+analogWrite(derA, 0); 
+} 
+
+if(estado=='b'){ // Reverse
+    Serial.println(estado);
+    analogWrite(enA,vel);
+  analogWrite(enB, vel);
+analogWrite(derA, 0); 
+analogWrite(izqA, 0);
+analogWrite(derB, vel); 
+analogWrite(izqB, vel); 
+}
+if (estado =='f'){ // Boton ON se mueve sensando distancia 
+
+}
+if (estado=='g'){ // Boton OFF, detiene los motores no hace nada 
+}
+
+
+
+
+
+
+
+
+SensorLeft = 1023 - analogRead(LeftSensor); // This reads the value of the sensor, then saves it to the corresponding integer.
+
+delay(1);
+
+SensorRight = 1023 - analogRead(RightSensor); // This reads the value of the sensor, then saves it to the corresponding integer.
+
+delay(1);
+
+SensorDifference = abs(SensorLeft - SensorRight); // This calculates the difference between the two sensors and then saves it to an integer.
+
+// This section of the sketch is used to print the values of the // sensors through Serial to the computer. Useful for determining // if the sensors are working and if the code is also functioning properly.
+
+Serial.print("Left Sensor = "); // Prints the text inside the quotes.
+
+Serial.print(SensorLeft); // Prints the value of the Left Sensor.
+
+Serial.print("\t"); // Prints a tab (space).
+
+Serial.print("Right Sensor = "); // Prints the text inside the quotes.
+
+Serial.print(SensorRight); // Prints the value of the Right Sensor.
+
+Serial.print("\t"); // Prints a tab (space).
+
+// This section of the sketch is what actually interperets the data and then runs the motors accordingly.
+
+if (SensorLeft > SensorRight && SensorDifference > 50) { // This is interpreted as if the Left sensor reads more light than the Right Sensor, Do this:
+
+analogWrite( enA, 0);
+
+digitalWrite( izqA , LOW);
+
+digitalWrite( derA, HIGH);
+
+analogWrite( enB , 255);
+
+digitalWrite( izqB , HIGH);
+
+digitalWrite( derB , LOW);
+
+Serial.println("Left"); // This prints Left when the robot would actually turn Left.
+
+delay(50);
+
+}
+
+if (SensorLeft < SensorRight && SensorDifference > 50) { // This is interpreted as if the Left sensor reads less light than the Right Sensor, Do this:
+
+analogWrite( enA , 255);
+
+digitalWrite( izqA, HIGH);
+
+digitalWrite( derA, LOW);
+
+analogWrite( enB, 0);
+
+digitalWrite( izqB, LOW);
+
+digitalWrite( derB, HIGH);
+
+Serial.println("Right"); // This prints Right when the robot would actually turn Right.
+
+delay(50);
+
+}
+
+
+if (SensorDifference < 50 && SensorLeft > 900) { // This is interpreted as if the difference between the two sensors is under 125 (Experiment to suit our sensors), Do this:
+
+analogWrite( enA, 255);
+
+digitalWrite( izqA, HIGH);
+
+digitalWrite( derA , HIGH);
+
+analogWrite( enB, 255);
+
+digitalWrite( izqB, LOW);
+
+digitalWrite( derB, LOW);
+
+Serial.println("Forward"); // This prints Forward when the robot would actually go forward.
+
+delay(50);
+
+}
+
+
+else if ( LeftSensor <800 &&SensorDifference < 50)
+{
+analogWrite( enA, 0);
+
+digitalWrite( izqA, LOW);
+
+digitalWrite( derA , LOW);
+
+analogWrite( enB, 0);
+
+digitalWrite( izqB, LOW);
+
+digitalWrite( derB, LOW);
+
+Serial.println("stop");
+//Serial.print("\n");
+
+
+
+
+}
+
+
+
+}
