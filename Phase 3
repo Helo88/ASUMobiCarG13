@@ -1,4 +1,25 @@
+int m1a = 2;
+int m1b = 3;
+int m2a = 4;  //  eit from uio
+int m2b = 5;
+int en1 =6;
+int en2 = 9;
+char val,ip;
+String dis,ang,leng,rec;
+int leno;
+boolean mark;
+int Si =0; //speed
 
+void setup() {
+pinMode(en1, OUTPUT);
+pinMode(en2, OUTPUT);
+pinMode(m1a, OUTPUT);  
+pinMode(m1b, OUTPUT);  
+pinMode(m2a, OUTPUT); 
+pinMode(m2b, OUTPUT);
+Serial.begin(9600);
+
+}
 void loop() {
   if(Serial.available()){
   val=Serial.read();
@@ -59,7 +80,7 @@ void loop() {
         }}
 
 Serial.println(ang.toInt());
-Right(100,120);
+Right(100,200);
 
 delay(10*ang.toInt());
 Stop();}
@@ -68,7 +89,7 @@ if(val=='K'){
          rectangle();
    }
 
-}
+}}
 
 
 
@@ -78,33 +99,33 @@ if(val=='K'){
 
 
 void rectangle (){
-  leno= 60;
+  leno= 100;
 Forward(200);
-delay((31)*leno);
+delay((23)*leno);
 Stop();
 delay(100);
 Right(100,200);
-delay(14.5*90);//1
+delay(11*90);//1
 Stop();
 delay(100);
 Forward(200);
-delay((31)*leno);
+delay((23)*leno);
 Stop();
 delay(100);
 Right(100,200);
-delay(14*90);//2
+delay(11*90);//2
 Stop();
 delay(100);
 Forward(200);
-delay((31)*leno);
+delay((23)*leno);
 Stop();
 delay(100);
 Right(100,200);
-delay(14*90);//3
+delay(11*90);//3
 Stop();
 delay(100);
 Forward(200);
-delay((31)*leno);
+delay((23)*leno);
 Stop();
 }
 void infinity(){
@@ -134,3 +155,62 @@ void Circle(int s){
   }
   Stop();
   }
+
+void Right( int s ,int p)
+{
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, p);
+}
+
+void Backward( int s)
+{
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, HIGH);
+analogWrite(en1, s);
+analogWrite(en2,s);
+ }
+ 
+void Forward (int s )
+   {
+digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, s);
+    }
+
+void Stop(){
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, LOW);
+digitalWrite(en1, HIGH);
+digitalWrite(en2, HIGH); 
+}
+
+void Forward_2 (int s , int p) //عشان الفورود يبقي فورود بالظبط ميحودش
+   {
+digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s); //100
+analogWrite(en2, p);  //150
+    }
+
+void Forward_right(int s ,int p)
+{
+ digitalWrite(m1a, LOW); 
+digitalWrite(m1b, HIGH); 
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);//100
+analogWrite(en2, p);//255 
+}
