@@ -1,0 +1,293 @@
+// 0&1 for blutoouth
+int m1a = 2;
+int m1b = 3;
+int m2a = 4;  //  eit from uio
+int m2b = 5;
+int en1 =6;
+int en2 = 9;
+char val;
+int Si =0; //speed
+//String dis,ang;
+//
+//boolean mark;
+//Ultrasonic
+
+int trigPin = 7;
+int echoPin = 8;
+long duration ;
+float Di ;
+
+//ir_sensor
+int  sensorLR=10;
+int sensorCR=11;
+int sensorRR=12;
+int state=0;
+ // aruino uno pins finished 
+void Right( int s ,int p)
+{
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, p);
+}
+void Left (int s){
+  
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, s);
+}
+
+void Backward( int s)
+{
+digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, HIGH);
+analogWrite(en1, s);
+analogWrite(en2,s);
+ }
+   void Forward (int s )
+   {
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, s);
+    }
+void Forward_right(int s ,int p)
+{
+ digitalWrite(m1a, HIGH); 
+digitalWrite(m1b, LOW); 
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);//100
+analogWrite(en2, p);
+}
+void Forward_left(int s ,int p){
+ digitalWrite(m1a, LOW); 
+digitalWrite(m1b, HIGH); 
+digitalWrite(m2a, LOW );
+digitalWrite(m2b,HIGH);
+analogWrite(en1, s); //100
+analogWrite(en2, p);//255
+} 
+void Backward_right(int s ,int p)
+{
+ digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);//255
+analogWrite(en2, p); //100
+}
+void Backward_left(int s, int p){
+  digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, HIGH);
+analogWrite(en1, s);//255
+analogWrite(en2, p);//100
+}
+
+void Stop(){
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, LOW);
+digitalWrite(en1, LOW);
+digitalWrite(en2, LOW); 
+}
+float Ready ()
+{
+  long  duration ;
+  float distance;
+ digitalWrite(trigPin, LOW);  // Added this line
+  delayMicroseconds(2); // Added this line
+   digitalWrite(trigPin, HIGH);
+//  delayMicroseconds(1000); - Removed this line
+  delayMicroseconds(10); // Added this line
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
+  return distance ;
+}
+ 
+void setup(){
+pinMode(en1, OUTPUT);
+pinMode(en2, OUTPUT);
+pinMode(m1a, OUTPUT); 
+pinMode(m1b, OUTPUT);  
+pinMode(m2a, OUTPUT); 
+pinMode(m2b, OUTPUT); 
+ //sensor
+ pinMode (sensorLR ,INPUT);
+ pinMode (sensorCR ,INPUT);
+ pinMode (sensorRR ,INPUT); 
+// ultrasonic
+pinMode (trigPin,OUTPUT);
+pinMode(echoPin,INPUT); 
+Serial.begin(9600);
+ }
+
+    
+    
+ void loop(){
+  Di= Ready();
+  Serial.println(Di);
+if(Serial.available() > 0)
+  {
+      val= Serial.read();
+      }
+       
+       if(val == 'F' && Di > 30)
+    {
+      Forward(255);
+    }
+    if(val == 'F')
+    {
+      while(Di <= 30)
+      {
+          Right (100,100);
+         delay(50);
+       /* digitalWrite(trigPin , LOW);
+        delayMicroseconds(2);
+        digitalWrite(trigPin , HIGH);
+        delayMicroseconds(10);
+        digitalWrite(trigPin , LOW);
+      duration = pulseIn(echoPin, HIGH);
+     distance = (duration/2) / 29.1; */
+    Di= Ready();
+      }
+    }
+    
+     if(val == 'B')
+    {
+      Backward(255);
+    }
+     if(val == 'R' && Di >30 )
+    {
+      Right(255,255);
+      }
+    if (val == 'R')
+      { 
+        while (Di<=30)
+      {
+        Backward (255);
+        delay (500);
+       Di= Ready();
+        }
+        }
+    
+    if(val == 'L' && Di >30 )
+    {
+      Left(255);
+      }
+     if (val == 'L')
+      { 
+        while (Di<=30)
+      {
+        Backward (255);
+        delay (500);
+       Di= Ready();
+        }
+        }
+     if(val == 'G')
+    {
+      Forward_left(100,255);
+    }
+
+     if(val == 'I')
+    {
+      Forward_right(100,255);
+    }
+
+  //   if(val == 'H')
+   // {
+      //Backward_left(255,100);
+    //}
+    
+    if(val == 'J')
+    {
+      Backward_right(255,100);
+    }
+     if(val == 'S')
+    {
+      Stop();
+    }
+ 
+
+     if(val == 'H'){
+      
+       if ((digitalRead(sensorLR))&&(digitalRead(sensorCR))&&(digitalRead(sensorRR)))
+   {
+    Si=150;
+    Forward(Si);
+   }
+  else if (!(digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&(digitalRead(sensorRR)))
+   {
+    Si=145;
+    Right(Si,Si); 
+    state=1;
+   }
+    if (!(digitalRead(sensorLR))&&(digitalRead(sensorCR))&&!(digitalRead(sensorRR)))
+    {
+      Si=90;
+    Forward(Si);
+    }
+   else if ((digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&!(digitalRead(sensorRR)))
+    {
+         Si=145;
+    Left(Si);
+    state=2;
+    }
+   else if ((digitalRead(sensorLR))&&(digitalRead(sensorCR))&&!(digitalRead(sensorRR)))
+    {
+       Si=90;
+      Left(Si);
+      state=2;
+    }
+    else if (!(digitalRead(sensorLR))&&(digitalRead(sensorCR))&&(digitalRead(sensorRR)))
+     {
+      Si=90;
+      Right(Si,Si);
+      state=1;
+     }
+   else  if (!(digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&!(digitalRead(sensorRR))&&state==1)
+     {
+      //Stop();
+      Si=170;
+      Right(Si,Si);
+      
+     }
+     else  if (!(digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&!(digitalRead(sensorRR))&&state==2)
+     {
+      //Stop();
+      Si=170;
+      Left(Si);
+      
+     
+      
+    }}
+
+
+
+
+
+
+
+
+
+
+    
+ }
+      
+      
+      
+  
+
