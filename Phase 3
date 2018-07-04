@@ -1,3 +1,82 @@
+
+void loop() {
+  if(Serial.available()){
+  val=Serial.read();
+  Serial.println(val);
+ 
+  
+  if (val =='d'){
+      dis="";
+      while(1){
+        if (Serial.available()>0)
+        {
+          ip=Serial.read();
+          if(ip=='q'){
+          Serial.print("stop");
+          break;
+          }
+          else if(ip=='f'){
+            mark=0;
+            }
+             else if(ip=='b'){
+            mark=1;
+            }
+          else
+          {
+            dis+=ip;
+          }
+          }
+          
+      }
+      Serial.println(dis.toInt());
+      delay(100);
+  
+  if(mark == 0)
+  {
+    Forward(200);
+  }
+  else {
+    Backward(200);
+    }
+ delay((12.5)*dis.toInt());
+  Stop();
+      }
+
+   if (val =='a'){
+   ang=" ";
+   while(1){
+        if (Serial.available()>0)
+        {
+          ip=Serial.read();
+          if(ip=='q'){
+          Serial.print("stop");
+          break;
+          }
+        else
+          {
+            ang+=ip;
+          }
+        }}
+
+Serial.println(ang.toInt());
+Right(100,120);
+
+delay(10*ang.toInt());
+Stop();}
+
+if(val=='K'){
+         rectangle();
+   }
+
+}
+
+
+
+
+
+
+
+
 void rectangle (){
   leno= 60;
 Forward(200);
