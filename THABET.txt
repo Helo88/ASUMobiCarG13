@@ -1,0 +1,17 @@
+#define tilt 8
+int led =9;
+void setup() {
+pinMode(tilt,INPUT);
+pinMode(led,OUTPUT);
+Serial.begin(9600);
+
+}
+void loop() {
+  int out=digitalRead(8);
+  Serial.println(out);
+  delay(100);
+  if(out==HIGH){digitalWrite(led,HIGH);}
+  else {digitalWrite(led,LOW);}
+  
+
+}
