@@ -1,0 +1,84 @@
+#define signalPin1 13 // righ
+#define signalPin2 12 // left
+
+int m1a = 2;
+int m1b = 3;
+int m2a = 4;  //  
+int m2b = 5;
+int en1 =6;
+int en2 = 9;
+
+void setup() {
+ pinMode(signalPin1, INPUT);
+pinMode(signalPin2, INPUT);  
+ pinMode(en1, OUTPUT);
+pinMode(en2, OUTPUT);
+pinMode(m1a, OUTPUT);  // Digital pin 10 set as output Pin
+pinMode(m1b, OUTPUT);  // Digital pin 11 set as output Pin
+pinMode(m2a, OUTPUT);  // Digital pin 12 set as output Pin
+pinMode(m2b, OUTPUT);  // Digital pin 13 set as output Pin
+ Serial.begin(9600); // initialize serial communications at 9600 bps:
+}
+// the loop() method runs over and over again,
+// as long as the Arduino has power
+void loop()
+{
+ if(HIGH == digitalRead(signalPin1)&& HIGH == digitalRead(signalPin2)){
+ Serial.println("black"); 
+ digitalWrite(m1a, LOW);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, LOW);
+
+digitalWrite(en1, LOW);
+
+digitalWrite(en2, LOW);
+while(true){
+  
+ }
+
+
+ }
+
+ if(LOW == digitalRead(signalPin1)&& HIGH == digitalRead(signalPin2)){                  //left
+   digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+
+analogWrite(en1, 100);
+
+analogWrite(en2, 75);
+
+delay(100);
+ }
+
+ if(LOW == digitalRead(signalPin1)&& LOW == digitalRead(signalPin2)){
+  Serial.println("white");
+  digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW); 
+
+analogWrite(en1, 75);
+
+analogWrite(en2, 75);
+delay(100);
+ 
+ }
+ //right
+ if(HIGH == digitalRead(signalPin1)&& LOW == digitalRead(signalPin2)){
+   digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, HIGH);
+
+analogWrite(en1,75 );
+
+analogWrite(en2, 100);
+delay(100);
+ }
+}
+
+
+
