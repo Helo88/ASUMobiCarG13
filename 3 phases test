@@ -1,0 +1,361 @@
+int m1a = 2;
+int m1b = 3;
+int m2a = 4;  //  eit from uio
+int m2b = 5;
+int en1 =6;
+int en2 = 9;
+char val,ip;
+String dis,ang,leng,rec;
+int leno;
+boolean mark;
+int Si =0; //speed
+
+//Ultrasonic
+
+int trigPin = 7;
+int echoPin = 8;
+long duration ;
+float Di ;
+
+//ir_sensor
+int  sensorLR=10;
+int sensorCR=11;
+int sensorRR=12;
+int state=0;
+ // aruino uno pins finished 
+ 
+void setup(){
+pinMode(en1, OUTPUT);
+pinMode(en2, OUTPUT);
+pinMode(m1a, OUTPUT);  
+pinMode(m1b, OUTPUT);  
+pinMode(m2a, OUTPUT); 
+pinMode(m2b, OUTPUT);
+
+//sensor
+ pinMode (sensorLR ,INPUT);
+ pinMode (sensorCR ,INPUT);
+ pinMode (sensorRR ,INPUT); 
+// ultrasonic
+pinMode (trigPin,OUTPUT);
+pinMode(echoPin,INPUT); 
+
+Serial.begin(9600);
+}
+void loop() {
+  if(Serial.available()){
+  val=Serial.read();
+  Serial.println(val);
+  if(val=='M') {//MF  msln then m
+  while(1){
+  if(Serial.available()>0){
+  val=Serial.read();
+ Di=Ready();
+  if((val=='F')&&Di>30)
+  Forward(200);
+  else{
+    while(Di<30){
+    Backward(100);
+    Di=Ready();
+    }}
+  if(val=='B') Backward(200);
+  if(val=='R') Right(200,200);
+  if(val=='L') Left(200);
+  if(val=='I')Forward_right(100,255);
+  if(val=='G')Backward_right(100,255);
+  if(val=='J')Forward_left(255,100);
+  if(val=='H')Backward_left(255,100);
+  if(val=='S') Stop ();
+ 
+    }
+  if(val=='m')
+  {
+    Stop ();break;}
+  }
+  }
+  if(val=='U') {
+    Di=Ready();
+    if(Di<30) Forward(200);
+    else 
+    {
+      while(Di<30){
+      Backward(200);
+    
+    delay(2000);
+    Right(100,125);
+    delay(1000);
+    Di=Ready();
+    
+    }
+    
+  }}
+  if (val =='d'){
+      dis="";
+      while(1){
+        if (Serial.available()>0)
+        {
+          ip=Serial.read();
+          if(ip=='q'){
+          Serial.print("stop");
+          break;
+          }
+          else if(ip=='f'){
+            mark=0;
+            }
+             else if(ip=='b'){
+            mark=1;
+            }
+          else
+          {
+            dis+=ip;
+          }
+          }
+          
+      }
+      Serial.println(dis.toInt());
+      delay(100);
+  
+  if(mark == 0)
+  {
+    Forward(200);
+  }
+  else {
+    Backward(200);
+    }
+ delay((12.5)*dis.toInt());
+  Stop();
+      }
+
+   if (val =='a'){
+   ang=" ";
+   while(1){
+        if (Serial.available()>0)
+        {
+          ip=Serial.read();
+          if(ip=='q'){
+          Serial.print("stop");
+          break;
+          }
+        else
+          {
+            ang+=ip;
+          }
+        }}
+
+Serial.println(ang.toInt());
+Right(100,120);
+
+delay(10*ang.toInt());
+Stop();}
+  
+  if (val=='H'){
+    while (1){
+   if ((digitalRead(sensorLR))&&(digitalRead(sensorCR))&&(digitalRead(sensorRR)))
+   {
+    Si=150;
+    Forward(Si);
+   }
+  else if (!(digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&(digitalRead(sensorRR)))
+   {
+    Si=145;
+    Right(Si,Si); 
+    state=1;
+   }
+    if (!(digitalRead(sensorLR))&&(digitalRead(sensorCR))&&!(digitalRead(sensorRR)))
+    {
+      Si=90;
+    Forward(Si);
+    }
+   else if ((digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&!(digitalRead(sensorRR)))
+    {
+         Si=145;
+    Left(Si);
+    state=2;
+    }
+   else if ((digitalRead(sensorLR))&&(digitalRead(sensorCR))&&!(digitalRead(sensorRR)))
+    {
+       Si=90;
+      Left(Si);
+      state=2;
+    }
+    else if (!(digitalRead(sensorLR))&&(digitalRead(sensorCR))&&(digitalRead(sensorRR)))
+     {
+      Si=90;
+      Right(Si,Si);
+      state=1;
+     }
+   else  if (!(digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&!(digitalRead(sensorRR))&&state==1)
+     {
+      //Stop();
+      Si=170;
+      Right(Si,Si);
+      
+     }
+     else  if (!(digitalRead(sensorLR))&&!(digitalRead(sensorCR))&&!(digitalRead(sensorRR))&&state==2)
+     {
+      //Stop();
+      Si=170;
+      Left(Si);} 
+      if (Serial.available()>0){
+      val=Serial.read();}
+      if (val =='h')
+      {
+      Stop();
+      break;
+      }}
+  }
+   if(val=='K'){
+         rectangle();
+   }
+ 
+  }}
+void Right( int s ,int p)
+{
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, p);
+}
+void Left (int s){
+  
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, s);
+}
+
+void Backward( int s)
+{
+digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, HIGH);
+analogWrite(en1, s);
+analogWrite(en2,s);
+ }
+   void Forward (int s )
+   {
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);
+analogWrite(en2, s);
+    }
+
+void Forward_right(int s ,int p)
+{
+ digitalWrite(m1a, HIGH); 
+digitalWrite(m1b, LOW); 
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);//100
+analogWrite(en2, p);//255
+}
+void Forward_left(int s ,int p){
+ digitalWrite(m1a, LOW); 
+digitalWrite(m1b, HIGH); 
+digitalWrite(m2a, LOW );
+digitalWrite(m2b,HIGH);
+analogWrite(en1, s); //100
+analogWrite(en2, p);//255
+} 
+void Backward_right(int s ,int p)
+{
+ digitalWrite(m1a, HIGH);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, HIGH);
+digitalWrite(m2b, LOW);
+analogWrite(en1, s);//255
+analogWrite(en2, p); //100
+}
+void Backward_left(int s, int p){
+  digitalWrite(m1a, LOW);
+digitalWrite(m1b, HIGH);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, HIGH);
+analogWrite(en1, s);//255
+analogWrite(en2, p);//100
+}
+void Stop(){
+digitalWrite(m1a, LOW);
+digitalWrite(m1b, LOW);
+digitalWrite(m2a, LOW);
+digitalWrite(m2b, LOW);
+digitalWrite(en1, LOW);
+digitalWrite(en2, LOW); 
+}
+
+float Ready ()
+{
+  long  duration ;
+  float distance;
+ digitalWrite(trigPin, LOW);  // Added this line
+  delayMicroseconds(2); // Added this line
+   digitalWrite(trigPin, HIGH);
+//  delayMicroseconds(1000); - Removed this line
+  delayMicroseconds(10); // Added this line
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
+  return distance ;
+}
+
+void rectangle (){
+  leno= 100;
+Forward(120);
+delay((12.5)*leno);
+Stop();
+delay(100);
+Right(100,120);
+delay(12*90);//1
+Stop();
+delay(100);
+Forward(120);
+delay((12.5)*leno);
+Stop();
+delay(100)
+Right(100,120);
+delay(12*90);//2
+Stop();
+delay(100);
+Forward(120);
+delay((12.5)*leno);
+Stop();
+delay(100);
+Right(100,120);
+delay(12*90);//3
+Stop();
+delay(100);
+
+Forward(120);
+delay((12.5)*leno);
+Stop();
+}
+void infinity(){
+ Forward(150);
+ delay((12.5)*100);
+ delay(100);
+ Right(100,120);
+ delay(14*180);
+ delay(100);
+ //Right(100,120);
+   //delay(8*45);
+ Forward(150);
+  delay((12.5)*100);
+  delay(100);
+  Right(100,120);
+  delay(14*180);
+  Stop();
+ // delay(20000);
+ }
+  
+
+
+
+
+
