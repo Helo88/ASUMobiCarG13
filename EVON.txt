@@ -1,0 +1,51 @@
+
+
+
+int sstate ;
+int s =7;
+int y = 13; 
+
+
+
+
+
+
+
+
+void setup() {
+  pinMode(s,INPUT);
+  pinMode(y,OUTPUT);
+
+
+
+
+
+
+
+
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+sstate=digitalRead(s);
+if(sstate==HIGH)
+{tone(13,2000,500);
+delay(600);
+
+
+
+
+
+
+
+ 
+
+
+  
+
+
+
+
+}
+}
