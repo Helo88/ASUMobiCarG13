@@ -129,15 +129,15 @@ delay((23)*leno);
 Stop();
 }
 void infinity(){
- Forward_right(200,255);
+ Forward_right(200,230);
  delay((31)*100);
- Forward_right(100,255);
+ Forward_right(100,230);
  delay(14*180);
  //Right(100,120);
    //delay(8*45);
- Forward(200);
+ Forward(250);
   delay((31)*100);
-  Forward_2(100,255);
+  Forward_2(100,230);
   delay(14*180);
   Stop();
  // delay(20000);
