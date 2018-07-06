@@ -353,7 +353,7 @@ float Ready ()
   return distance ;
 }
 
-void rectangle (){
+void rectangle (){         // sqare 1*1
   leno= 80;
 Forward(200);
 delay((21)*leno);
@@ -411,7 +411,7 @@ void Circle(int s){
   Stop();
   }
 
-  void square (){
+  void square (){   // square 2*2
   leno= 180;
 Forward(200);
 delay((21)*leno);
